@@ -1,0 +1,17 @@
+.dish-composition-btn {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: fit-content;
+    height: 2.5rem;
+    background-color: rgb(207, 207, 207, .2) !important;
+    color: #515151 !important;
+    border: none !important;
+    border-radius: 0.5rem;
+    line-height: 2.5rem;
+    padding: 0 1.25rem;
+}
+
+.dish-composition-btn:hover {
+    background-color: rgb(207, 207, 207, .4) !important;
+}

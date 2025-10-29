@@ -1,0 +1,50 @@
+import { NUTRIENTS_MOCK } from "./mock";
+
+export interface Nutrients {
+  id: number;
+  name: string;
+  short_desc: string;
+  daily_dose_min: string;
+  daily_dose_max: string;
+  img_url: string;
+  full_desc?: string;
+};
+
+export interface NutrientsResult {
+  resultCount: number;
+  results: Nutrients[];
+}
+
+export const getNutrientsByName = async (name = ""): Promise<Nutrients[]> => {
+  return fetch(``)
+  .then(
+    (response) => {
+      console.log('Получили данные', response);
+      return response.json();
+    }
+  )
+  .catch(
+    () => {
+      console.log('Ошибка получения данных', NUTRIENTS_MOCK);
+      return NUTRIENTS_MOCK;
+    }
+  )
+};
+
+export const getNutrientById = async (
+  id: number | string
+): Promise<Nutrients> => {
+  return fetch(`/api/v1/nutrients/${id}`).then(
+    (response) => {
+        console.log('Получили данные', response);
+        return response.json()
+      }
+  )
+  .catch(
+    () => {
+      console.log('Ошибка получения данных');
+      const num_id = Number(id)
+      return num_id >= 0 && num_id <= 2 ? NUTRIENTS_MOCK[Number(id) - 1] : undefined;
+    }
+  )
+};

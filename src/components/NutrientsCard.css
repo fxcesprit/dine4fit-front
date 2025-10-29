@@ -1,0 +1,84 @@
+.nutrient {
+    display: grid !important;
+    grid-template-rows: 10rem 1fr 2rem !important;
+    justify-items: center !important;
+
+    width: 14.5rem !important;
+    height: 22.5rem !important;
+    background-color: #EDEDED !important;
+    border: transparent !important;
+    border-radius: 0.625rem !important;
+
+    padding: 1.25rem 0.625rem !important;
+
+    text-align: center;
+}
+
+.nutrient img {
+    width: 10rem;
+    height: 10rem;
+    object-fit: cover;
+    border-radius: 0.625rem;
+    margin: 0.25rem !important;
+}
+
+.nutrient p {
+    margin: 0;
+}
+
+.nutrient .title {
+    font-weight: 700;
+    font-size: 20px;
+    text-align: center;
+    color:#1c1c1c;
+    margin: 0.25rem !important;
+}
+
+.nutrient .daily-dose {
+    font-weight: 300;
+    color:#515151;
+    font-size: 14px;
+    text-align: center;
+}
+
+.nutrient .desc {
+    font-weight: 700;
+    color:#515151;
+    font-size: 14px !important;
+    text-align: center;
+}
+
+.btn {
+    display: flex !important;
+    border-radius: 0.625rem;
+    height: 32px;
+    line-height: 32px;
+    text-align: center;
+    align-items: center !important;
+}
+
+.btn-desc {
+    width: 6rem !important;
+    background-color: white !important;
+    border: #689F38 1px solid !important;
+    color: #689F38 !important;
+}
+
+.btn-add {
+    width: 6rem !important;
+    background-color: #689F38 !important;
+    border: #689F38 1px solid !important;
+    color: white !important;
+}
+
+.btn-desc:hover {
+    background-color: #efefef !important;
+}
+
+.btn-add:hover {
+    background-color: #588F28 !important;
+}
+
+.nutrient-info {
+    padding-top: 0.5rem;
+}

@@ -1,0 +1,19 @@
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { ROUTES } from "../Routes";
+import { HomePage } from "./pages/HomePage";
+import NutrientsPage from "./pages/NutrientsPage";
+import { NutrientPage } from "./pages/NutrientPage";
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path={ROUTES.HOME} index element={<HomePage />} />
+        <Route path={`${ROUTES.NUTRIENTS}/:id`} element={<NutrientPage />} />
+        <Route path={ROUTES.NUTRIENTS} element={<NutrientsPage />} />
+      </Routes>
+    </BrowserRouter>
+  );
+}
+
+export default App;
