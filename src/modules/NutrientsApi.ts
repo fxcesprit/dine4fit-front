@@ -15,8 +15,15 @@ export interface NutrientsResult {
   results: Nutrients[];
 }
 
+export interface DishCompositionBtn {
+  dish_composition_draft: {
+        id: number,
+        nutrient_types_amount: number
+    }
+}
+
 export const getNutrientsByName = async (name = ""): Promise<Nutrients[]> => {
-  return fetch(``)
+  return fetch(`/api/v1/nutrients?search_text=${name}`)
   .then(
     (response) => {
       console.log('Получили данные', response);
@@ -48,3 +55,23 @@ export const getNutrientById = async (
     }
   )
 };
+
+export const getDishCompositionBtn = async () : Promise<DishCompositionBtn> => {
+  return fetch(`/api/v1/dish_compositions/draft`).then(
+    (response) => {
+        console.log('Получили данные', response);
+        return response.json()
+      }
+  )
+  .catch(
+    () => {
+      console.log('Ошибка получения данных');
+      return {
+        dish_composition_draft: {
+          id: -1,
+          nutrient_types_amount: 0
+          }
+      };
+    }
+  ) 
+}

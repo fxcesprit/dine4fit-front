@@ -10,7 +10,7 @@ function NavigationComponent() {
   return (
       <Navbar className="header shadow mb-2" expand="lg">
         <Container className='d-flex flex-row'>
-          <Navbar.Brand href={`${ROUTES.NUTRIENTS}`}>
+          <Navbar.Brand href={`${ROUTES.HOME}`}>
             <img
               src={app_logo}
               width="40px"

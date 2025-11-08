@@ -46,13 +46,13 @@ export const NutrientCard: FC<ICardProps> = ({
           >
             Описание
           </Button>
-          <Button
+          {/* <Button
             className="cardButton btn-add"
             href={''}
             target="_self"
           >
             Добавить
-          </Button>
+          </Button> */}
         </Stack>
     </Card>
   );

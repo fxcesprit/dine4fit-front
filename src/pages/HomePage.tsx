@@ -3,17 +3,35 @@ import { Link } from "react-router-dom";
 import { ROUTES } from "../../Routes";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import './HomePage.css'
+import NavigationComponent from "../components/Navigation";
+import video from '../assets/foods-healthy.mp4'
 
 export const HomePage: FC = () => {
   return (
-    <Container>
-          <h1>dine4fit</h1>
-          <p>
-            Добро пожаловать в dine4fit! Здесь вы можете посчитать количество нутриентов в вашем блюде!
-          </p>
-          <Link to={ROUTES.NUTRIENTS}>
-            <Button>Просмотреть нутриенты</Button>
-          </Link>
-    </Container>
+    <>
+      <NavigationComponent />
+      <Container>
+        <Row>
+          <Col>
+            <Container>
+                <h1>dine4fit</h1>
+                <p className="text-center">
+                  Добро пожаловать в dine4fit! Здесь вы можете посчитать количество нутриентов в вашем блюде!
+                </p>
+                <Link to={ROUTES.NUTRIENTS}>
+                  <Button>Просмотреть нутриенты</Button>
+                </Link>
+            </Container>
+          </Col>
+          <Col>
+            <Container>
+              <video autoPlay loop controls width={500} className="object-fit-cover mh-100 rounded shadow"> 
+                <source src={video} type="video/mp4"></source>
+              </video>
+            </Container>
+          </Col>
+        </Row>
+      </Container>
+    </>
   );
 };
