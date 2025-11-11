@@ -2,10 +2,9 @@ import { FC } from "react";
 import { Button, Card, Stack } from "react-bootstrap";
 import "./NutrientsCard.css";
 import defaultimage from "../assets/DefaultImage.jpg";
-import { ROUTES } from "../../Routes";
 
 interface ICardProps {
-  nutrientId: number
+  nutrientId?: number
   name: string;
   short_desc: string;
   daily_dose_min: string;
@@ -15,7 +14,6 @@ interface ICardProps {
 }
 
 export const NutrientCard: FC<ICardProps> = ({
-  nutrientId,
   name,
   short_desc,
   daily_dose_min,

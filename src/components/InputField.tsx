@@ -1,5 +1,5 @@
 import type { FC } from 'react'
-import { Button, Stack } from 'react-bootstrap'
+import { Stack } from 'react-bootstrap'
 import './InputField.css'
 
 interface ISearchProps {
@@ -11,7 +11,7 @@ interface ISearchProps {
     buttonTitle?: string
 }
 
-const InputField: FC<ISearchProps> = ({ value, setValue, onSubmit, loading, placeholder, buttonTitle = 'Поиск' }) => (
+const InputField: FC<ISearchProps> = ({ value, setValue, onSubmit, placeholder}) => (
     <div className="inputField">
         <form onSubmit={onSubmit}>
             <Stack direction='horizontal'>

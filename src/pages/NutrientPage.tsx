@@ -3,7 +3,7 @@ import { FC, useEffect, useState } from "react";
 import { BreadCrumbs } from "../components/BreadCrumbs";
 import { ROUTES, ROUTE_LABELS } from "../../Routes";
 import { useParams } from "react-router-dom";
-import { Col, Row, Spinner, Image } from "react-bootstrap";
+import { Spinner } from "react-bootstrap";
 import defaultImage from "../assets/DefaultImage.jpg";
 import { Nutrients, getNutrientById } from "../modules/NutrientsApi";
 import NavigationComponent from "../components/Navigation";

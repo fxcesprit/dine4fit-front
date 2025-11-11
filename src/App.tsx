@@ -6,7 +6,7 @@ import { NutrientPage } from "./pages/NutrientPage";
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/dine4fit-front">
       <Routes>
         <Route path={ROUTES.HOME} index element={<HomePage />} />
         <Route path={`${ROUTES.NUTRIENTS}/:id`} element={<NutrientPage />} />

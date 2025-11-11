@@ -1,7 +1,7 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect } from "react";
 import { ROUTES, ROUTE_LABELS } from "../../Routes";
 import { BreadCrumbs } from "../components/BreadCrumbs";
-import { getNutrientsByName, Nutrients } from "../modules/NutrientsApi";
+import { getNutrientsByName } from "../modules/NutrientsApi";
 import InputField from "../components/InputField";
 import { Col, Row } from "react-bootstrap";
 import { NutrientCard } from "../components/NutrientCard";
@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import NavigationComponent from "../components/Navigation";
 import DishCompositionBtn from "../components/DishCompositionBtn";
 import "./NutrientsPage.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setFilterNameAction, setNutrientsAction, useNutrients, useNutrientsFilterName } from "../slices/nutrientSlice";
 
 const NutrientsPage: FC = () => {

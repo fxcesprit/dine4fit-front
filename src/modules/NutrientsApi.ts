@@ -1,7 +1,4 @@
-import { useDispatch } from "react-redux";
 import { NUTRIENTS_MOCK } from "./mock";
-import { setNutrientsAction, useNutrientsFilterName } from "../slices/nutrientSlice";
-import { useEffect } from "react";
 
 export interface Nutrients {
   id: number;

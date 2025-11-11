@@ -13,3 +13,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     </Provider>
   </React.StrictMode>,
 )
+
+// if ("serviceWorker" in navigator) {
+//   registerSW()
+// }

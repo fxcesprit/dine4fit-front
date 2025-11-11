@@ -1,0 +1,1 @@
+if('serviceWorker' in navigator) navigator.serviceWorker.register('/dine4fit-front/dev-sw.js?dev-sw', { scope: '/dine4fit-front/', type: 'classic' })
