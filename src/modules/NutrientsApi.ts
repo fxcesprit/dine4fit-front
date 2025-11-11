@@ -1,4 +1,7 @@
+import { useDispatch } from "react-redux";
 import { NUTRIENTS_MOCK } from "./mock";
+import { setNutrientsAction, useNutrientsFilterName } from "../slices/nutrientSlice";
+import { useEffect } from "react";
 
 export interface Nutrients {
   id: number;
@@ -33,10 +36,36 @@ export const getNutrientsByName = async (name = ""): Promise<Nutrients[]> => {
   .catch(
     () => {
       console.log('Ошибка получения данных', NUTRIENTS_MOCK);
-      return NUTRIENTS_MOCK;
+      return NUTRIENTS_MOCK.filter((nutrient: Nutrients) => nutrient.name.toLowerCase().includes(name));
     }
   )
 };
+
+// export function getNutrientsByName() {
+//   const dispatch = useDispatch();
+//   const name = useNutrientsFilterName();
+
+//   async function fetchNutrients() {
+//     const response = await fetch(`/api/v1/nutrients?search_text=${name}`)
+//     .then(
+//       (response) => {
+//         console.log('Получили данные', response);
+//         return response.json();
+//       }
+//     )
+//     .catch(
+//       () => {
+//         console.log('Ошибка получения данных', NUTRIENTS_MOCK);
+//         return NUTRIENTS_MOCK;
+//       }
+//     )
+//     dispatch(setNutrientsAction(response)) 
+//   }
+
+//   useEffect(() => {
+//     fetchNutrients()
+//   }, [])
+// }
 
 export const getNutrientById = async (
   id: number | string

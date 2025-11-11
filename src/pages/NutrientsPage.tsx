@@ -9,29 +9,21 @@ import { useNavigate } from "react-router-dom";
 import NavigationComponent from "../components/Navigation";
 import DishCompositionBtn from "../components/DishCompositionBtn";
 import "./NutrientsPage.css";
+import { useDispatch, useSelector } from "react-redux";
+import { setFilterNameAction, setNutrientsAction, useNutrients, useNutrientsFilterName } from "../slices/nutrientSlice";
 
 const NutrientsPage: FC = () => {
 
-    const [nutrientsList, setNutrientsList] = useState<Nutrients[]>([]);
-    const [searchValue, setSearchValue] = useState("");
+    const dispatch = useDispatch();
+    const searchValue = useNutrientsFilterName()
+    const nutrients = useNutrients();
 
     const navigate = useNavigate();
 
-    const handleSearch = (e?: React.FormEvent<HTMLFormElement>) => {
+    const handleSearch = async (e?: React.FormEvent<HTMLFormElement>) => {
       if (e) {e.preventDefault();}
-      getNutrientsByName(searchValue)
-      .then((response) => {
-          setNutrientsList(response);
-      })
-        // .catch(() => { // В случае ошибки используем mock данные, фильтруем по имени
-        //     setMusic(
-        //     SONGS_MOCK.results.filter((item) =>
-        //         item.collectionCensoredName
-        //         .toLocaleLowerCase()
-        //         .startsWith(searchValue.toLocaleLowerCase())
-        //     )
-        //     );
-        // });
+      const data = await getNutrientsByName(searchValue);
+      dispatch(setNutrientsAction(data));
     };
 
     const handleCardClick = (id: number) => {
@@ -53,7 +45,7 @@ const NutrientsPage: FC = () => {
             <InputField
               value={searchValue}
               placeholder="Ищите нутриенты..."
-              setValue={(value) => setSearchValue(value)}
+              setValue={(value) => dispatch(setFilterNameAction(value))}
               onSubmit={handleSearch}
             />
           </Col>
@@ -61,13 +53,13 @@ const NutrientsPage: FC = () => {
             <DishCompositionBtn />
           </Col>
         </Row>
-        {(!nutrientsList.length /* Проверка на существование данных */ ? (
+        {(!nutrients.length /* Проверка на существование данных */ ? (
           <div>
             <h3>К сожалению, пока ничего не найдено :(</h3>
           </div>
         ) : (
           <Row xs={2} md={3} className="g-3 mx-5">
-            {nutrientsList.map((item, index) => (
+            {nutrients.map((item, index) => (
               <Col key={index} className="d-flex justify-content-center">
                 <NutrientCard
                   nutrientId = {item.id}

@@ -12,7 +12,8 @@ export const DishCompositionBtn: FC<ICardProps> = ({
     const [nutrientsAmount, setNutrientsAmount] = useState(0);
 
     useEffect(() => {
-      getDishCompositionBtn().then(
+      getDishCompositionBtn()
+      .then (
         (response) => {
           setNutrientsAmount(response.dish_composition_draft.nutrient_types_amount)
         }
