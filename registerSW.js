@@ -1,0 +1,1 @@
+if('serviceWorker' in navigator) {window.addEventListener('load', () => {navigator.serviceWorker.register('/dine4fit-front/sw.js', { scope: '/dine4fit-front/' })})}
