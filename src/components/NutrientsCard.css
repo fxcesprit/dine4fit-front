@@ -58,7 +58,8 @@
 }
 
 .btn-desc {
-    width: 6rem !important;
+    width: 100% !important;
+    justify-content: center;
     background-color: white !important;
     border: #689F38 1px solid !important;
     color: #689F38 !important;
@@ -82,3 +83,9 @@
 .nutrient-info {
     padding-top: 0.5rem;
 }
+
+/* @media (max-width: 460px) {
+    .nutrient {
+        width: 80% !important;
+    }
+} */

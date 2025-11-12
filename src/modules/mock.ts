@@ -28,4 +28,13 @@ export const NUTRIENTS_MOCK: Nutrients[] = [
     full_desc: "",
     img_url: "http://127.0.0.1:9000/bucket/shutterstock_731206732.webp"
   },
+  {
+    id: 4,
+    name: "Магний",
+    daily_dose_min: "3.0",
+    daily_dose_max: "5.0",
+    short_desc: "Минерал спокойствия",
+    full_desc: "",
+    img_url: ""
+  }
 ]

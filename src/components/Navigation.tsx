@@ -9,9 +9,8 @@ import { Link, NavLink } from 'react-router-dom';
 
 function NavigationComponent() {
   return (
-      <Navbar className="header shadow mb-2" expand="lg">
-        <Container className='d-flex flex-row'>
-          <Navbar.Brand as={Link} to={ROUTES.HOME}>
+      <Navbar className="header shadow mb-2">
+          <Navbar.Brand as={Link} to={ROUTES.HOME} className='nav__img'>
             <img
               src={app_logo}
               width="40px"
@@ -20,11 +19,19 @@ function NavigationComponent() {
               alt="Logo"
             />
           </Navbar.Brand>
-          <Nav>
+          <Nav className='nav__links'>
             <Nav.Link as={NavLink} to={ROUTES.HOME}>{`${ROUTE_LABELS.HOME}`}</Nav.Link>
             <Nav.Link as={NavLink} to={ROUTES.NUTRIENTS}>{`${ROUTE_LABELS.NUTRIENTS}`}</Nav.Link>
           </Nav>
-        </Container>
+        <div className='nav__mobile-wrapper'
+        onClick={(event) => event.currentTarget.classList.toggle('active')}
+        >
+          <div className='nav__mobile-target' />
+          <div className='nav__mobile-menu'>
+            <Nav.Link as={NavLink} to={ROUTES.HOME}>{`${ROUTE_LABELS.HOME}`}</Nav.Link>
+            <Nav.Link as={NavLink} to={ROUTES.NUTRIENTS}>{`${ROUTE_LABELS.NUTRIENTS}`}</Nav.Link>
+          </div>
+        </div>
       </Navbar>
   );
 }

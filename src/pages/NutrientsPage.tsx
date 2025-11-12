@@ -58,17 +58,17 @@ const NutrientsPage: FC = () => {
             <h3>К сожалению, пока ничего не найдено :(</h3>
           </div>
         ) : (
-          <Row xs={2} md={3} className="g-3 mx-5">
-            {nutrients.map((item, index) => (
-              <Col key={index} className="d-flex justify-content-center">
+          <div className="cards__wrapper">
+            {nutrients.map((item) => (
+              <div className="card__item">
                 <NutrientCard
                   nutrientId = {item.id}
                   imageClickHandler={() => {handleCardClick(item.id)}}
                   {...item}
                 />
-              </Col>
+              </div>
             ))}
-          </Row>
+          </div>
         ))}
     </>
     );

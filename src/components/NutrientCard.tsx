@@ -37,7 +37,7 @@ export const NutrientCard: FC<ICardProps> = ({
         <Card.Subtitle className="daily-dose">{daily_dose_min} - {daily_dose_max} г / кг массы тела</Card.Subtitle>
         <Card.Text className="short-desc lh-1">{short_desc}</Card.Text>
       </Card.Body>
-        <Stack direction="horizontal" gap={1}>
+        {/* <Stack direction="horizontal" gap={1}> */}
           <Button
             className="cardButton btn-desc"
             onClick={imageClickHandler}
@@ -51,7 +51,7 @@ export const NutrientCard: FC<ICardProps> = ({
           >
             Добавить
           </Button> */}
-        </Stack>
+        {/* </Stack> */}
     </Card>
   );
 };
