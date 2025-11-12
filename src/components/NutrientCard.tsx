@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Button, Card, Stack } from "react-bootstrap";
+import { Button, Card } from "react-bootstrap";
 import "./NutrientsCard.css";
 import defaultimage from "../assets/DefaultImage.jpg";
 
