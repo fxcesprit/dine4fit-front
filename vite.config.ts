@@ -24,33 +24,33 @@ export default defineConfig({
   },
   plugins: [
     react(), 
-    VitePWA({
-      registerType: 'autoUpdate',
-      devOptions: {
-        enabled: true,
-      },
-      manifest: {
-        "name": "dine4fit-front",
-        "short_name": "dine4fit",
-        "start_url": "/dine4fit-front/",
-        "display": "standalone",
-        "background_color": "#fdfdfd",
-        "theme_color": "#db4938",
-        "orientation": "portrait-primary",
-        "icons": [
-          {
-            "src": "/dine4fit-front/logo-192.png",
-            "type": "image/png", 
-            "sizes": "192x192"
-          },
-                    {
-            "src": "/dine4fit-front/logo-512.png",
-            "type": "image/png", 
-            "sizes": "512x512"
-          }
-        ]
-      } 
-    }),
+    // VitePWA({
+    //   registerType: 'autoUpdate',
+    //   devOptions: {
+    //     enabled: true,
+    //   },
+    //   manifest: {
+    //     "name": "dine4fit-front",
+    //     "short_name": "dine4fit",
+    //     "start_url": "/dine4fit-front/",
+    //     "display": "standalone",
+    //     "background_color": "#fdfdfd",
+    //     "theme_color": "#db4938",
+    //     "orientation": "portrait-primary",
+    //     "icons": [
+    //       {
+    //         "src": "/dine4fit-front/logo-192.png",
+    //         "type": "image/png", 
+    //         "sizes": "192x192"
+    //       },
+    //                 {
+    //         "src": "/dine4fit-front/logo-512.png",
+    //         "type": "image/png", 
+    //         "sizes": "512x512"
+    //       }
+    //     ]
+    //   } 
+    // }),
     mkcert()
   ],
 })
