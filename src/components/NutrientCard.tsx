@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { Button, Card } from "react-bootstrap";
 import "./NutrientsCard.css";
-import defaultimage from "../assets/DefaultImage.jpg";
+import defaultimage from "../assets/DefaultImage.png";
 
 interface ICardProps {
   nutrientId?: number
@@ -22,12 +22,17 @@ export const NutrientCard: FC<ICardProps> = ({
   imageClickHandler,
 }) => {
 
+  const handleImageError = (e: any) => {
+    e.target.src = defaultimage;
+  }
+
   return (
     <Card className="nutrient align-items-center py-3">
       <Card.Img
         className="cardImage"
         variant="top"
         src={img_url?  img_url : defaultimage}
+        onError={handleImageError}
         height={160}
         width={160}
         onClick={imageClickHandler}

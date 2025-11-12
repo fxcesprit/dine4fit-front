@@ -38,10 +38,18 @@ const NutrientsPage: FC = () => {
     <>
         <NavigationComponent />
         <Row className="nutrients-page-top">
+          <div className="search__mobile">
+            <InputField
+              value={searchValue}
+              placeholder="Ищите нутриенты..."
+              setValue={(value) => dispatch(setFilterNameAction(value))}
+              onSubmit={handleSearch}
+            />
+          </div>
           <Col>
             <BreadCrumbs crumbs={[{ label: ROUTE_LABELS.NUTRIENTS }]} />
           </Col>
-          <Col className="d-flex justify-content-center align-items-center">
+          <Col className="justify-content-center align-items-center search__desktop">
             <InputField
               value={searchValue}
               placeholder="Ищите нутриенты..."

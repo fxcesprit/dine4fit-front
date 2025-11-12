@@ -4,7 +4,7 @@ import { BreadCrumbs } from "../components/BreadCrumbs";
 import { ROUTES, ROUTE_LABELS } from "../../Routes";
 import { useParams } from "react-router-dom";
 import { Spinner } from "react-bootstrap";
-import defaultImage from "../assets/DefaultImage.jpg";
+import defaultImage from "../assets/DefaultImage.png";
 import { Nutrients, getNutrientById } from "../modules/NutrientsApi";
 import NavigationComponent from "../components/Navigation";
 
