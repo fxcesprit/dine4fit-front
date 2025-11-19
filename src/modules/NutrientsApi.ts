@@ -23,16 +23,16 @@ export interface DishCompositionBtn {
 }
 
 export const getNutrientsByName = async (name = ""): Promise<Nutrients[]> => {
-  return fetch(`/api/v1/nutrients?search_text=${name}`)
+  return fetch(`/api/v1/nutrients?nutrient_search_text=${name}`)
   .then(
     (response) => {
-      console.log('Получили данные', response);
+      //console.log('Получили данные', response);
       return response.json();
     }
   )
   .catch(
     () => {
-      console.log('Ошибка получения данных', NUTRIENTS_MOCK);
+      //console.log('Ошибка получения данных', NUTRIENTS_MOCK);
       return NUTRIENTS_MOCK.filter((nutrient: Nutrients) => nutrient.name.toLowerCase().includes(name));
     }
   )

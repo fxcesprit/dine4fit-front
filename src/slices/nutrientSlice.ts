@@ -1,10 +1,33 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit"
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
-import { Nutrients } from "../modules/NutrientsApi"
+import { api } from "../api"
+import { NUTRIENTS_MOCK } from "../modules/mock";
+import { Nutrient } from '../api/Api';
+
+
+export const getNutrientsByName = createAsyncThunk<
+    Nutrient[],
+    void,
+  { state: RootState; rejectValue: string }
+>(
+    'nutrients/getNutrientsByName',
+    async (_, {getState, rejectWithValue}) => { 
+        const { nutrients } = getState();
+        try {
+            const response = await api.nutrients.nutrientsList({nutrient_search_text: nutrients.filterName});
+            return response.data;
+        }
+        catch (error) {
+            console.log(error)
+            return rejectWithValue('Ошибка при загрузке данных');
+        }
+    }
+)
+
 
 interface nutrientState {
-    nutrients: any[],
+    nutrients: Nutrient[],
     filterName: string
 }
 
@@ -17,25 +40,36 @@ const nutrientSlice = createSlice({
     name: "nutrients",
     initialState,
     reducers: {
-        setNutrients(state, {payload}: PayloadAction<Nutrients[]>) {
-            state.nutrients = payload
-        },
         setFilterName(state, {payload}) {
             state.filterName = payload
+        },
+        setNutrients(state, {payload}) {
+            state.nutrients = payload
         }
-    }
+    },
+    extraReducers: (builder) => {
+    builder
+      .addCase(getNutrientsByName.fulfilled, (state, action) => {
+        state.nutrients = action.payload;
+      })
+      .addCase(getNutrientsByName.rejected, (state) => {
+        state.nutrients = NUTRIENTS_MOCK.filter((item) =>
+            item.name.toLocaleLowerCase().includes(state.filterName.toLocaleLowerCase())
+        );
+      });
+  },
 })
-
-export const useNutrients = () =>
-    useSelector((state: RootState) => state.nutrients.nutrients)
 
 
 export const useNutrientsFilterName = () =>
     useSelector((state: RootState) => state.nutrients.filterName)
 
 
+export const useNutrients = () =>
+    useSelector((state: RootState) => state.nutrients.nutrients)
+
+
 export const {
-    setNutrients: setNutrientsAction,
     setFilterName: setFilterNameAction
 } = nutrientSlice.actions
 

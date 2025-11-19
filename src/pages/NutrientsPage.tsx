@@ -1,7 +1,7 @@
 import { FC, useEffect } from "react";
 import { ROUTES, ROUTE_LABELS } from "../../Routes";
 import { BreadCrumbs } from "../components/BreadCrumbs";
-import { getNutrientsByName } from "../modules/NutrientsApi";
+import { getNutrientsByName, useNutrients } from "../slices/nutrientSlice";
 import InputField from "../components/InputField";
 import { Col, Row } from "react-bootstrap";
 import { NutrientCard } from "../components/NutrientCard";
@@ -10,11 +10,12 @@ import NavigationComponent from "../components/Navigation";
 import DishCompositionBtn from "../components/DishCompositionBtn";
 import "./NutrientsPage.css";
 import { useDispatch } from "react-redux";
-import { setFilterNameAction, setNutrientsAction, useNutrients, useNutrientsFilterName } from "../slices/nutrientSlice";
+import { setFilterNameAction, useNutrientsFilterName } from "../slices/nutrientSlice";
+import { AppDispatch } from "../store/store";
 
 const NutrientsPage: FC = () => {
 
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     const searchValue = useNutrientsFilterName()
     const nutrients = useNutrients();
 
@@ -22,17 +23,16 @@ const NutrientsPage: FC = () => {
 
     const handleSearch = async (e?: React.FormEvent<HTMLFormElement>) => {
       if (e) {e.preventDefault();}
-      const data = await getNutrientsByName(searchValue);
-      dispatch(setNutrientsAction(data));
+      await dispatch(getNutrientsByName());
     };
 
-    const handleCardClick = (id: number) => {
+    const handleCardClick = (id: number | undefined) => {
         navigate(`${ROUTES.NUTRIENTS}/${id}`);
     };
 
     useEffect(() => {
-        handleSearch();
-    }, []);
+        dispatch(getNutrientsByName());
+    }, [dispatch]);
 
     return (
     <>
@@ -68,7 +68,7 @@ const NutrientsPage: FC = () => {
         ) : (
           <div className="cards__wrapper">
             {nutrients.map((item) => (
-              <div className="card__item">
+              <div key={`${item.id}`} className="card__item">
                 <NutrientCard
                   nutrientId = {item.id}
                   imageClickHandler={() => {handleCardClick(item.id)}}

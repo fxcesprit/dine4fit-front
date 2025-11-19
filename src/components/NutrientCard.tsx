@@ -4,12 +4,12 @@ import "./NutrientsCard.css";
 import defaultimage from "../assets/DefaultImage.png";
 
 interface ICardProps {
-  nutrientId?: number
+  nutrientId?: number;
   name: string;
-  short_desc: string;
-  daily_dose_min: string;
-  daily_dose_max: string;
-  img_url: string;
+  short_desc?: string | null;
+  daily_dose_min?: string | null;
+  daily_dose_max?: string | null;
+  img_url?: string | null;
   imageClickHandler?: () => void;
 }
 
