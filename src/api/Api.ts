@@ -567,14 +567,11 @@ export class Api<
      * @request POST:/logout/
      * @secure
      */
-    logoutCreate: (data: User, params: RequestParams = {}) =>
-      this.request<User, any>({
+    logoutCreate: (params: RequestParams = {}) =>
+      this.request<void, any>({
         path: `/logout/`,
         method: "POST",
-        body: data,
         secure: true,
-        type: ContentType.Json,
-        format: "json",
         ...params,
       }),
   };

@@ -1,8 +1,10 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit"
 import nutrientReducer from "../slices/nutrientSlice"
+import userReducer from '../slices/userSlice'; 
 
 const rootReducer = combineReducers({
   nutrients: nutrientReducer,
+  user: userReducer,
 });
 
 export const store = configureStore({
