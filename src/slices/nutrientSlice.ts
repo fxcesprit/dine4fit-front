@@ -4,6 +4,7 @@ import { RootState } from "../store/store";
 import { api } from "../api"
 import { NUTRIENTS_MOCK } from "../modules/mock";
 import { Nutrient } from '../api/Api';
+import { setCount, setdishCompositionID } from "./dishCompositionSlice";
 
 
 export const getNutrientsByName = createAsyncThunk<
@@ -12,10 +13,17 @@ export const getNutrientsByName = createAsyncThunk<
   { state: RootState; rejectValue: string }
 >(
     'nutrients/getNutrientsByName',
-    async (_, {getState, rejectWithValue}) => { 
+    async (_, {getState, dispatch, rejectWithValue}) => { 
         const { nutrients } = getState();
         try {
             const response = await api.nutrients.nutrientsList({nutrient_search_text: nutrients.filterName});
+            const dishCompositionResponse = await api.dishCompositions.dishCompositionsDraftList() as any;
+
+            const dishCompositionID = dishCompositionResponse.data.dish_composition_draft.id; // ID черновой заявки
+            const count = dishCompositionResponse.data.dish_composition_draft.nutrient_types_amount; // количество услуг в черновой заявке
+
+            dispatch(setdishCompositionID(dishCompositionID));
+            dispatch(setCount(count));
             return response.data;
         }
         catch (error) {

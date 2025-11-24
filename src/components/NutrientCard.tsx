@@ -2,9 +2,13 @@ import { FC } from "react";
 import { Button, Card } from "react-bootstrap";
 import "./NutrientsCard.css";
 import defaultimage from "../assets/DefaultImage.png";
+import { addDishCompositionNutrient, } from '../slices/dishCompositionSlice'
+import { getNutrientsByName } from '../slices/nutrientSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../store/store';
 
 interface ICardProps {
-  nutrientId?: number;
+  nutrientId?: number | string;
   name: string;
   short_desc?: string | null;
   daily_dose_min?: string | null;
@@ -14,6 +18,7 @@ interface ICardProps {
 }
 
 export const NutrientCard: FC<ICardProps> = ({
+  nutrientId,
   name,
   short_desc,
   daily_dose_min,
@@ -21,6 +26,16 @@ export const NutrientCard: FC<ICardProps> = ({
   img_url,
   imageClickHandler,
 }) => {
+
+  const dispatch = useDispatch<AppDispatch>();
+  const isAuthenticated = useSelector((state: RootState) => state.user.isAuthenticated);
+
+  const handleAdd = async () => {
+      if (nutrientId) {
+          await dispatch(addDishCompositionNutrient(nutrientId as string));
+          await dispatch(getNutrientsByName()); // Для обновления отображения состояния иконки "корзины" 
+      }
+  }
 
   const handleImageError = (e: any) => {
     e.target.src = defaultimage;
@@ -49,14 +64,15 @@ export const NutrientCard: FC<ICardProps> = ({
           >
             Описание
           </Button>
-          {/* <Button
-            className="cardButton btn-add"
-            href={''}
-            target="_self"
-          >
-            Добавить
-          </Button> */}
-        {/* </Stack> */}
+          {(isAuthenticated == true ) && (
+            <Button
+              className="cardButton btn-add"
+              target="_self"
+              onClick={() => handleAdd()}
+            >
+              Добавить
+            </Button>
+        )}
     </Card>
   );
 };

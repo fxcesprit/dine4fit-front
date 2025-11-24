@@ -1,0 +1,7 @@
+.dish-composition-nutrients img {
+    width: 10rem;
+    height: 10rem;
+    object-fit: cover;
+    border-radius: 0.625rem;
+    margin: 0.25rem !important;
+}

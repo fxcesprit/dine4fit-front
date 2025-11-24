@@ -103,6 +103,8 @@ export interface DishCompositionRequestFlat {
 }
 
 export interface DishCompositionRequest {
+  /** ID */
+  id?: number;
   /** Статус */
   status?: "DR" | "DE" | "FO" | "CO" | "RE";
   /**
@@ -142,8 +144,11 @@ export interface DishCompositionRequest {
    * @max 2147483647
    */
   dish_mass?: number | null;
-  /** Dish */
-  dish?: number | null;
+  /**
+   * Dish
+   * @minLength 1
+   */
+  dish?: string;
   nutrients?: DishCompositionNutrient[];
 }
 
@@ -642,18 +647,11 @@ export class Api<
      * @duplicate
      * @secure
      */
-    nutrientsCreate2: (
-      id: string,
-      data: Nutrient,
-      params: RequestParams = {},
-    ) =>
-      this.request<Nutrient, any>({
+    nutrientsCreate2: (id: string, params: RequestParams = {}) =>
+      this.request<void, any>({
         path: `/nutrients/${id}`,
         method: "POST",
-        body: data,
         secure: true,
-        type: ContentType.Json,
-        format: "json",
         ...params,
       }),
 

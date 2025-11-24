@@ -10,6 +10,7 @@ import { AppDispatch, RootState } from '../store/store';
 import { logoutUserAsync } from '../slices/userSlice'; 
 import { setFilterNameAction, getNutrientsByName } from '../slices/nutrientSlice'; 
 import { Button } from 'react-bootstrap';
+import { useEffect } from 'react';
 
 function NavigationComponent() {
   const navigate = useNavigate();
