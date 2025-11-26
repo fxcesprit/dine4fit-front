@@ -18,9 +18,6 @@ export const HomePage: FC = () => {
                 <p className="text-center">
                   Добро пожаловать в dine4fit! Здесь вы можете посчитать количество нутриентов в вашем блюде!
                 </p>
-                <Link to={ROUTES.NUTRIENTS}>
-                  <Button>Просмотреть нутриенты</Button>
-                </Link>
             </Container>
           </Col>
           <Col>
