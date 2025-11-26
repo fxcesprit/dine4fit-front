@@ -13,6 +13,18 @@ const initialState: UserState = {
   error: null,
 };
 
+export const registerUserAsync = createAsyncThunk(
+  'user/registerUserAsync',
+  async (credentials: { email: string; password: string }, { rejectWithValue }) => {
+    try {
+      const response = await api.users.usersCreate(credentials);
+      return response.data; 
+    } catch (error) {
+      return rejectWithValue('Ошибка регистрации'); // Возвращаем ошибку в случае неудачи
+    }
+  }
+);
+
 // Асинхронное действие для авторизации
 export const loginUserAsync = createAsyncThunk(
   'user/loginUserAsync',

@@ -16,9 +16,9 @@ interface dishCompositionNutrient {
 }
 
 interface dishCompositionRequest {
-  body_mass: number | string | null;
-  dish_mass: number | string | null;
-  dish: string | null;
+  body_mass: number | string ;
+  dish_mass: number | string ;
+  dish: string ;
 }
 
 interface dishCompositionState {
@@ -36,9 +36,9 @@ const initialState: dishCompositionState = {
 
   nutrients: [],
   dishCompositionRequest: {
-    body_mass: null,
-    dish_mass: null,
-    dish: null
+    body_mass: 0,
+    dish_mass: 0,
+    dish: ''
   },
   isDraft: false
 };
@@ -73,9 +73,9 @@ export const updateDishCompositionRequest = createAsyncThunk(
     const ToSend = {
       dish_mass: dishCompositionRequest.dish_mass as number ?? 0, 
       body_mass: dishCompositionRequest.body_mass as number ?? 0,
-      dish: dishCompositionRequest.dish as string ?? ''
+      dish: 1,
     };
-    const response = await api.dishCompositions.dishCompositionsPutUpdate(dishCompositionID, ToSend);
+    const response = await api.dishCompositions.dishCompositionsSubmitUpdate(dishCompositionID, ToSend)
     return response.data;
   }
 );
@@ -111,7 +111,6 @@ const dishCompositionDraftSlice = createSlice({
     builder
       .addCase(getDishCompositionRequest.fulfilled, (state, action) => {
         const dishCompositionRequest = action.payload;
-        console.log('thunk reducer', dishCompositionRequest)
         if (dishCompositionRequest) {
             state.dishCompositionID = dishCompositionRequest.id;
             state.dishCompositionRequest = {
@@ -128,9 +127,9 @@ const dishCompositionDraftSlice = createSlice({
         state.count = NaN;
         state.nutrients = [];
         state.dishCompositionRequest = {
-          body_mass: null,
-          dish_mass: null,
-          dish: null
+          body_mass: 0,
+          dish_mass: 0,
+          dish: ''
         };
       })
       .addCase(updateDishCompositionRequest.fulfilled, (state, action) => {

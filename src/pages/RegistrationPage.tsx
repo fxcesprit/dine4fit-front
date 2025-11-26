@@ -1,39 +1,40 @@
-import "./LoginPage.css"
-import React, { useState, ChangeEvent, FormEvent } from 'react';
-import { Form, Button, Alert, Container } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../store/store';
-import { loginUserAsync } from '../slices/userSlice';
+import { ChangeEvent, FC, FormEvent, useState } from "react"
+import NavigationComponent from "../components/Navigation"
+import { Alert, Button, Container, Form } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../store/store";
 import { useNavigate } from "react-router-dom";
-import NavigationComponent from "../components/Navigation";
-import { ROUTES } from '../../Routes';
+import { ROUTES } from "../../Routes";
+import { loginUserAsync, registerUserAsync } from "../slices/userSlice";
 
-const LoginPage: React.FC = () => {
+export const RegistrationPage: FC = () => {
+
     const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate();
 
     const [formData, setFormData] = useState({ email: '', password: '' });
     const error = useSelector((state: RootState) => state.user.error);
 
-    // Обработчик события изменения полей ввода (username и password)
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
-
-    // Обработчки события нажатия на кнопку "Войти"
+    
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
         if (formData.email && formData.password) {
-            await dispatch(loginUserAsync(formData)); // Отправляем 'thunk'
-            navigate(`${ROUTES.NUTRIENTS}`); // переход на страницу услуг
+            await dispatch(registerUserAsync(formData))
+            .then(async () => {
+                await dispatch(loginUserAsync(formData))
+            })
+            navigate(`${ROUTES.NUTRIENTS}`);
         }
     };
 
-    return (
-        <> 
-            <NavigationComponent/>
-            <Container style={{ maxWidth: '400px'}}>
-                <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>Рады снова Вас видеть!</h2>
+  return (
+    <>
+        <NavigationComponent/>
+        <Container style={{ maxWidth: '400px'}}>
+                <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>Регистрация</h2>
                 {error && <Alert variant="danger">{error}</Alert>}
                 <Form onSubmit={handleSubmit}>
                     <Form.Group controlId="email" style={{ marginBottom: '15px' }}>
@@ -57,12 +58,12 @@ const LoginPage: React.FC = () => {
                         />
                     </Form.Group>
                     <Button variant="primary" type="submit" className="w-100 mx-auto text-center justify-content-center">
-                        Войти
+                        Зарегистрироваться
                     </Button>
                 </Form>
             </Container>
-        </>
-    );
+    </>
+  )
 };
 
-export default LoginPage;
+export default RegistrationPage;

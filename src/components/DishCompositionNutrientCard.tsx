@@ -56,7 +56,7 @@ export const DishCompositionNutrientCard: FC<ICardProps> = ({
           </Card.Text>
           </Stack>
           {(isDraft) && (
-              <Button className="fav-btn-open" onClick={() => handleDeleteDishCompositionNutrient()}>
+              <Button className="btn delete-btn" onClick={() => handleDeleteDishCompositionNutrient()}>
                   Удалить
               </Button>
           )}

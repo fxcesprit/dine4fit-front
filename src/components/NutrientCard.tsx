@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Button, Card } from "react-bootstrap";
+import { Button, Card, Stack } from "react-bootstrap";
 import "./NutrientsCard.css";
 import defaultimage from "../assets/DefaultImage.png";
 import { addDishCompositionNutrient, } from '../slices/dishCompositionSlice'
@@ -57,22 +57,23 @@ export const NutrientCard: FC<ICardProps> = ({
         <Card.Subtitle className="daily-dose">{daily_dose_min} - {daily_dose_max} г / кг массы тела</Card.Subtitle>
         <Card.Text className="short-desc lh-1">{short_desc}</Card.Text>
       </Card.Body>
-        {/* <Stack direction="horizontal" gap={1}> */}
+        <Stack className="w-100" direction="horizontal" gap={1}>
           <Button
-            className="cardButton btn-desc"
+            className="cardButton btn-desc w-100"
             onClick={imageClickHandler}
           >
             Описание
           </Button>
           {(isAuthenticated == true ) && (
             <Button
-              className="cardButton btn-add"
+              className="cardButton btn-add w-100 justify-content-center"
               target="_self"
               onClick={() => handleAdd()}
             >
               Добавить
             </Button>
-        )}
+          )}
+        </Stack>
     </Card>
   );
 };

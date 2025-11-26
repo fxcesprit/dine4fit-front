@@ -2,11 +2,13 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit"
 import nutrientReducer from "../slices/nutrientSlice"
 import userReducer from '../slices/userSlice'; 
 import dishCompositionDraftReducer from '../slices/dishCompositionSlice'
+import dishCompositionListReducer from '../slices/dishCompositionListSlice'
 
 const rootReducer = combineReducers({
   nutrients: nutrientReducer,
   user: userReducer,
   dishCompositionDraft: dishCompositionDraftReducer,
+  dishCompositionList: dishCompositionListReducer,
 });
 
 export const store = configureStore({

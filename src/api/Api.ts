@@ -59,6 +59,8 @@ export interface DishCompositionNutrient {
 }
 
 export interface DishCompositionRequestFlat {
+  /** ID */
+  id?: number;
   /** Статус */
   status?: "DR" | "DE" | "FO" | "CO" | "RE";
   /**

@@ -41,6 +41,9 @@ function NavigationComponent() {
           <Nav className='nav__links'>
             <Nav.Link as={NavLink} to={ROUTES.HOME}>{`${ROUTE_LABELS.HOME}`}</Nav.Link>
             <Nav.Link as={NavLink} to={ROUTES.NUTRIENTS}>{`${ROUTE_LABELS.NUTRIENTS}`}</Nav.Link>
+            {(isAuthenticated == true) && (
+            <Nav.Link as={NavLink} to={ROUTES.DISHCOMPOSITIONLIST}>{ROUTE_LABELS.DISHCOMPOSITIONLIST}</Nav.Link>  
+            )}
           </Nav>
           <div className='nav__mobile-wrapper'
           onClick={(event) => event.currentTarget.classList.toggle('active')}
@@ -53,23 +56,24 @@ function NavigationComponent() {
           </div>
 
           {(isAuthenticated == false ) && (
-            <div className="ms-auto">
-              <Link to={ROUTES.LOGIN}>
+            <Nav className='nav__links ms-auto'>
+              <Nav.Link as={NavLink} to={ROUTES.REGISTRATION}>{`${ROUTE_LABELS.REGISTRATION}`}</Nav.Link>
+              <Link to={ROUTES.LOGIN} className='d-inline-block my-auto'>
                   <Button className="login-btn ms-auto">Войти</Button>
               </Link>
-            </div>
+            </Nav>
           )}
 
         
           {(isAuthenticated == true) && (
-            <div className="ms-auto">
-              <Button variant="primary" type="submit" className="login-btn" onClick={ handleExit }>
+            <Nav className="ms-auto">
+              <Button variant="primary" type="submit" className="login-btn my-auto" onClick={ handleExit }>
                   Выйти
               </Button>
-            </div>
+              <Nav.Link as={NavLink} to={ROUTES.USERPAGE}>{ email }</Nav.Link>   
+            </Nav>
           )}
-          
-          <Nav.Link as={NavLink} to={ROUTES.HOME}>{ email }</Nav.Link>     
+            
       </Navbar>
   );
 }

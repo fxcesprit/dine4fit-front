@@ -70,6 +70,7 @@ const DishCompositionPage: FC = () => {
       };
       try {
         dispatch(updateDishCompositionRequest({ dishCompositionID: dishCompositionID, dishCompositionRequest: ToSend }));
+        navigate(`${ROUTES.DISHCOMPOSITIONLIST}`);
       } catch (error) {
         console.log("updateDishCompositionRequest error")
       }
@@ -94,16 +95,18 @@ const DishCompositionPage: FC = () => {
           </>
         ) : 
         (
-          <Form className="w-50 mx-auto" >
+          <Form className="w-50 mx-auto mt-5" >
           <Form.Group as={Row} className="mb-3">
             <Form.Label column sm="2">
               Масса блюда:
             </Form.Label>
             <Col sm="10">
               <Form.Control
-                className="dish-composition-form-control"               
-                value={dishCompositionRequest.dish_mass as string}
-                placeholder="масса блюда..." 
+                className="dish-composition-form-control"  
+                name="dish_mass"             
+                value={dishCompositionRequest.dish_mass}
+                placeholder="Масса блюда..."
+                onChange={handleInputChange}
               />
             </Col>
           </Form.Group>
@@ -112,9 +115,11 @@ const DishCompositionPage: FC = () => {
               Масса тела:
             </Form.Label>
             <Col sm="10">
-              <Form.Control               
-                value={dishCompositionRequest.body_mass as string}
+              <Form.Control
+                name="body_mass"       
+                value={dishCompositionRequest.body_mass}
                 placeholder="Масса тела..." 
+                onChange={handleInputChange}
               />
             </Col>
           </Form.Group>
@@ -123,15 +128,17 @@ const DishCompositionPage: FC = () => {
               Блюдо:
             </Form.Label>
             <Col sm="10">
-              <Form.Control               
-                value={dishCompositionRequest.dish as string}
-                placeholder="Блюдо..." 
+              <Form.Control
+                name="dish"           
+                value={dishCompositionRequest.dish}
+                placeholder="Блюдо..."
+                onChange={handleInputChange} 
               />
             </Col>
           </Form.Group>
         </Form>
         )}
-          <h1>Нутриенты:</h1>
+          <h2>Нутриенты:</h2>
           <div className="cards-wrapper-2 d-flex flex-column">
             {nutrients.length ? (
               nutrients.map((item) => (
@@ -153,11 +160,11 @@ const DishCompositionPage: FC = () => {
             )}
             {(isDraft) && (
               <>
-              <Button className="save-button" onClick={handleDelete}>
-                Удалить
-              </Button>
-              <Button type="submit" className="save-button" onClick={handleSaveDishCompositionRequest}>
+              <Button type="submit" className="m-4 save-btn justify-content-center" onClick={handleSaveDishCompositionRequest}>
                 Сохранить
+              </Button>
+              <Button className="btn delete-btn m-4 mt-0 justify-content-center" onClick={handleDelete}>
+                Удалить
               </Button>
               </>
             )}

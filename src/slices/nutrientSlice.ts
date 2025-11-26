@@ -33,6 +33,13 @@ export const getNutrientsByName = createAsyncThunk<
     }
 )
 
+export const getNutrientById = createAsyncThunk(
+    'nutrients/getNutrientById',
+    async (id: number | string) => {
+        const response: any = await api.nutrients.nutrientsRead(id as string);
+        return response.data
+    }
+)
 
 interface nutrientState {
     nutrients: Nutrient[],
@@ -53,7 +60,7 @@ const nutrientSlice = createSlice({
         },
         setNutrients(state, {payload}) {
             state.nutrients = payload
-        }
+        },
     },
     extraReducers: (builder) => {
     builder
@@ -64,7 +71,12 @@ const nutrientSlice = createSlice({
         state.nutrients = NUTRIENTS_MOCK.filter((item) =>
             item.name.toLocaleLowerCase().includes(state.filterName.toLocaleLowerCase())
         );
-      });
+      })
+      .addCase(getNutrientById.fulfilled, (state, action) => {
+        console.log(action.payload)
+        state.nutrients = [action.payload];
+        console.log(state)
+      })    
   },
 })
 
