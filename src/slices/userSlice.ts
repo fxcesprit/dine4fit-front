@@ -2,12 +2,14 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { api } from '../api';
 
 interface UserState {
+  id?: number;
   email: string;
   isAuthenticated: boolean;
   error?: string | null; 
 }
 
 const initialState: UserState = {
+  id: -1,
   email: '',
   isAuthenticated: false,
   error: null,
@@ -51,6 +53,18 @@ export const logoutUserAsync = createAsyncThunk(
   }
 );
 
+export const getUserAsync = createAsyncThunk(
+  'user/getUserAsync',
+  async (id: number, { rejectWithValue }) => {
+    try {
+      const response = await api.users.usersRead(id);
+      return response.data; 
+    } catch (error) {
+      return rejectWithValue('Ошибка');
+    }
+  }
+);
+
 const userSlice = createSlice({
   name: 'user',
   initialState,
@@ -62,6 +76,7 @@ const userSlice = createSlice({
       })
       .addCase(loginUserAsync.fulfilled, (state, action) => {
         const { email } = action.payload;
+        state.id = action.payload.id;
         state.email = email;
         state.isAuthenticated = true;
         state.error = null;

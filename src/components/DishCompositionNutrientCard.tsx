@@ -1,6 +1,6 @@
 import { FC } from "react";
 import "./DishCompositionNutrientCard.css"
-import { Button, Card, CardText, Stack } from "react-bootstrap";
+import { Button, Card, CardText, Col, Row, Stack } from "react-bootstrap";
 import defaultimage from "../assets/DefaultImage.png";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store/store";
@@ -36,8 +36,13 @@ export const DishCompositionNutrientCard: FC<ICardProps> = ({
           dispatch(setDishCompositionNutrients(dishCompositionNutrients.filter(nutrients => nutrients.nutrient?.id !== nutrientId)));
       }
     }
+
+    const handleSaveDishCompositionNutrient = async () => {
+
+    }
+
     return (
-    <Card className="dish-composition-nutrients p-3">
+    <Card className="dish-composition-nutrient p-3">
       <Stack direction="horizontal">  
         <Card.Img
           className="cardImage"
@@ -48,18 +53,25 @@ export const DishCompositionNutrientCard: FC<ICardProps> = ({
           width={160}
         />
         <Card.Body className="py-0">
-          <Stack direction="vertical">
-          <Card.Title className="">{name}</Card.Title>
-          <Card.Text>
-            Количество в блюде: {quantity_in_dish}г<br/>
-            Ваш процент дневной нормы: {daily_dose_percentage}%<br/>
-          </Card.Text>
-          </Stack>
-          {(isDraft) && (
-              <Button className="btn delete-btn" onClick={() => handleDeleteDishCompositionNutrient()}>
+          <Row>
+            <Col>
+              <Card.Title className="">{name}</Card.Title>
+              <Card.Text>
+                Количество в блюде: {quantity_in_dish}г<br/>
+                Ваш процент дневной нормы: {daily_dose_percentage}%<br/>
+              </Card.Text>
+            </Col>
+            {(isDraft) && (
+            <Col md="auto">
+             <Button className="m-1 btn btn-save" onClick={() => handleSaveDishCompositionNutrient()}>
+                  Сохранить
+              </Button>
+              <Button className="m-1 btn delete-btn" onClick={() => handleDeleteDishCompositionNutrient()}>
                   Удалить
               </Button>
+            </Col>
           )}
+          </Row>
         </Card.Body>
       </Stack>
     </Card>

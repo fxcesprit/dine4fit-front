@@ -16,7 +16,7 @@ function App() {
         <Route path={ROUTES.HOME} index element={<HomePage />} />
         <Route path={ROUTES.LOGIN} index element={<LoginPage />} />
         <Route path={ROUTES.REGISTRATION} index element={<RegistrationPage />} />
-        <Route path={`${ROUTES.USERPAGE}/:email`} index element={<UserPage />} />
+        <Route path={ROUTES.USERPAGE} index element={<UserPage />} />
         <Route path={`${ROUTES.NUTRIENTS}/:id`} element={<NutrientPage />} />
         <Route path={ROUTES.NUTRIENTS} element={<NutrientsPage />} />
         <Route path={`${ROUTES.DISHCOMPOSITION}/:dishCompositionID`} element={<DishCompositionPage />} />

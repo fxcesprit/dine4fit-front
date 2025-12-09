@@ -67,7 +67,20 @@ export const deleteDishCompositionRequest = createAsyncThunk(
   }
 );
 
-export const updateDishCompositionRequest = createAsyncThunk(
+export const saveDishCompositionRequest = createAsyncThunk(
+  'dishCompositionRequest/saveDishCompositionRequest',
+  async ({ dishCompositionID, dishCompositionRequest }: { dishCompositionID: string; dishCompositionRequest: dishCompositionRequest }) => {
+    const ToSend = {
+      dish_mass: dishCompositionRequest.dish_mass as number ?? 0, 
+      body_mass: dishCompositionRequest.body_mass as number ?? 0,
+      dish: "1",
+    };
+    const response = await api.dishCompositions.dishCompositionsPutUpdate(dishCompositionID, ToSend)
+    return response.data;
+  }
+);
+
+export const submitDishCompositionRequest = createAsyncThunk(
   'dishCompositionRequest/updateDishCompositionRequest',
   async ({ dishCompositionID, dishCompositionRequest }: { dishCompositionID: string; dishCompositionRequest: dishCompositionRequest }) => {
     const ToSend = {
@@ -132,7 +145,7 @@ const dishCompositionDraftSlice = createSlice({
           dish: ''
         };
       })
-      .addCase(updateDishCompositionRequest.fulfilled, (state, action) => {
+      .addCase(submitDishCompositionRequest.fulfilled, (state, action) => {
         state.dishCompositionRequest = action.payload as any;
       })
   }

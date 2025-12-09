@@ -57,7 +57,7 @@ export const UserPage: FC = () => {
                     />
                 </Form.Group>
                 <Button variant="primary" type="submit" className="w-100 mx-auto text-center justify-content-center">
-                    Зарегистрироваться
+                    Сохранить
                 </Button>
             </Form>
         </Container>

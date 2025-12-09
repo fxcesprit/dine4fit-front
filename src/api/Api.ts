@@ -102,6 +102,8 @@ export interface DishCompositionRequestFlat {
   dish_mass?: number | null;
   /** Dish */
   dish?: number | null;
+  /** Calculated nutrients count */
+  calculated_nutrients_count?: string;
 }
 
 export interface DishCompositionRequest {
@@ -155,6 +157,8 @@ export interface DishCompositionRequest {
 }
 
 export interface User {
+  /** ID */
+  id?: number;
   /**
    * Email адрес
    * @format email
@@ -456,6 +460,25 @@ export class Api<
       this.request<void, any>({
         path: `/dish_compositions/${id}`,
         method: "GET",
+        secure: true,
+        ...params,
+      }),
+
+    /**
+     * @description Приём результатов расчёта от асинхронного Go-сервиса. Псевдо-авторизация через X-ASYNC-TOKEN.
+     *
+     * @tags dish_compositions
+     * @name DishCompositionsCalcResultCreate
+     * @request POST:/dish_compositions/{id}/calc_result
+     * @secure
+     */
+    dishCompositionsCalcResultCreate: (
+      id: string,
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/dish_compositions/${id}/calc_result`,
+        method: "POST",
         secure: true,
         ...params,
       }),

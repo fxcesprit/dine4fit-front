@@ -15,7 +15,7 @@ import { AppDispatch, RootState } from '../store/store';
 import { getDishCompositionRequest, } from '../slices/dishCompositionSlice';
 import { DishCompositionNutrientCard } from "../components/DishCompositionNutrientCard";
 import InputField from "../components/InputField";
-import { deleteDishCompositionRequest, updateDishCompositionRequest, setDishCompositionRequest } from "../slices/dishCompositionSlice";
+import { deleteDishCompositionRequest, submitDishCompositionRequest, setDishCompositionRequest, saveDishCompositionRequest } from "../slices/dishCompositionSlice";
 
 const DishCompositionPage: FC = () => {
   const { dishCompositionID } = useParams();
@@ -34,6 +34,22 @@ const DishCompositionPage: FC = () => {
       dispatch(getDishCompositionRequest(dishCompositionID));
     }
   }, [dispatch]);
+
+  const handleSaveDishCompositionRequest = async () => {
+      if (dishCompositionID) {
+      const ToSend = {
+        body_mass: dishCompositionRequest.body_mass ?? 0,
+        dish_mass: dishCompositionRequest.dish_mass ?? 0,
+        dish: dishCompositionRequest.dish ?? ''
+      };
+      try {
+        dispatch(saveDishCompositionRequest({ dishCompositionID: dishCompositionID, dishCompositionRequest: ToSend }));
+        navigate(`${ROUTES.DISHCOMPOSITIONLIST}`);
+      } catch (error) {
+        console.log("submitDishCompositionRequest error")
+      }
+    }
+  }
 
   const handleCardClick = (id: number | undefined) => {
     navigate(`${ROUTES.NUTRIENTS}/${id}`);
@@ -61,7 +77,7 @@ const DishCompositionPage: FC = () => {
     );
   };
 
-  const handleSaveDishCompositionRequest = () => {
+  const handleSubmitDishCompositionRequest = () => {
     if (dishCompositionID) {
       const ToSend = {
         body_mass: dishCompositionRequest.body_mass ?? 0,
@@ -69,10 +85,10 @@ const DishCompositionPage: FC = () => {
         dish: dishCompositionRequest.dish ?? ''
       };
       try {
-        dispatch(updateDishCompositionRequest({ dishCompositionID: dishCompositionID, dishCompositionRequest: ToSend }));
+        dispatch(submitDishCompositionRequest({ dishCompositionID: dishCompositionID, dishCompositionRequest: ToSend }));
         navigate(`${ROUTES.DISHCOMPOSITIONLIST}`);
       } catch (error) {
-        console.log("updateDishCompositionRequest error")
+        console.log("submitDishCompositionRequest error")
       }
     }
   }
@@ -136,22 +152,24 @@ const DishCompositionPage: FC = () => {
               />
             </Col>
           </Form.Group>
+          {(isDraft) && (
+          <Button type="submit" className="w-auto save-btn justify-content-center" onClick={handleSaveDishCompositionRequest}>
+            Сохранить
+          </Button>
+          )}
         </Form>
         )}
-          <h2>Нутриенты:</h2>
-          <div className="cards-wrapper-2 d-flex flex-column">
+          <div className="cards-wrapper-2 d-flex flex-column align-items-center w-75 m-auto">
+            <h2 className="align-self-start">Нутриенты:</h2>
             {nutrients.length ? (
               nutrients.map((item) => (
-                <Col key={item.nutrient?.id}>
                   <DishCompositionNutrientCard
-                    
                     name={item.nutrient?.name}
                     img_url={item.nutrient?.img_url}
                     nutrientId={item.nutrient?.id}
                     quantity_in_dish={item.quantity_in_dish}
                     daily_dose_percentage={item.daily_dose_percentage}
                   />
-                </Col>
               ))
             ) : (
               <section className="nutrients-not-found">
@@ -159,14 +177,14 @@ const DishCompositionPage: FC = () => {
               </section>
             )}
             {(isDraft) && (
-              <>
-              <Button type="submit" className="m-4 save-btn justify-content-center" onClick={handleSaveDishCompositionRequest}>
-                Сохранить
+              <div className="hstack">
+              <Button type="submit" className="w-auto m-4 save-btn justify-content-center" onClick={handleSubmitDishCompositionRequest}>
+                Отправить на рассчет
               </Button>
-              <Button className="btn delete-btn m-4 mt-0 justify-content-center" onClick={handleDelete}>
+              <Button className="btn delete-btn m-4 ms-auto justify-content-center" onClick={handleDelete}>
                 Удалить
               </Button>
-              </>
+              </div>
             )}
           </div>
       </div>
