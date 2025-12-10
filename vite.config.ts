@@ -10,9 +10,10 @@ export default defineConfig({
   base: "/dine4fit-front",
   server: { 
     port: 3000,
+    host: 'localhost',
     proxy: {
       "/api/v1": {
-        target: "http://localhost:8000",
+        target: "http://192.168.1.13:8000",
         changeOrigin: true,
         //rewrite: (path) => path.replace(/^\/api/, "/"),
       },
