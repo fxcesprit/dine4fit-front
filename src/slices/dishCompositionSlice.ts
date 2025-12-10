@@ -93,6 +93,38 @@ export const submitDishCompositionRequest = createAsyncThunk(
   }
 );
 
+export const completeDishCompositionRequest = createAsyncThunk(
+  "dishCompositionRequest/completeDishCompositionRequest",
+  async (dishCompositionID: string) => {
+    const body = { action: "complete" } as any;
+
+    const response = await api.dishCompositions.dishCompositionsCompleteUpdate(
+      dishCompositionID,
+      body
+    );
+
+    return response.data;
+  }
+);
+
+/**
+ * Отклонить заявку (action = "reject")
+ */
+export const rejectDishCompositionRequest = createAsyncThunk (
+  "dishCompositionRequest/rejectDishCompositionRequest",
+  async (dishCompositionID: string) => {
+    const body = { action: "reject" } as any;
+
+    const response = await api.dishCompositions.dishCompositionsCompleteUpdate(
+      dishCompositionID,
+      body
+    );
+
+    return response.data;
+  }
+);
+
+
 export const deleteDishCompositionNutrient = createAsyncThunk(
   'dishCompositionRequest/deleteDishCompositionNutrient',
   async ({ dishCompositionID, nutrientId }: { dishCompositionID: number; nutrientId: number }) => {

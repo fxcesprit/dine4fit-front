@@ -7,7 +7,7 @@ interface dishComposition {
   creation_datetime?: string;
   formation_datetime?: string | null;
   completion_datetime?: string | null;
-  nutrients_count: number;
+  calculated_nutrients_count: number;
   client: string;
   manager?: string;
 }

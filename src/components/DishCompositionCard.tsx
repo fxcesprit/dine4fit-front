@@ -4,7 +4,12 @@ import { Button, Card, CardText, Col, Row, Stack } from "react-bootstrap";
 import defaultimage from "../assets/DefaultImage.png";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store/store";
-import { deleteDishCompositionNutrient, setDishCompositionNutrients, submitDishCompositionRequest } from "../slices/dishCompositionSlice";
+import { deleteDishCompositionNutrient, 
+          setDishCompositionNutrients, 
+          submitDishCompositionRequest, 
+          completeDishCompositionRequest,
+          rejectDishCompositionRequest 
+        } from "../slices/dishCompositionSlice";
 
 interface ICardProps {
   id?: number | undefined;
@@ -62,12 +67,11 @@ export const DishCompositionCard: FC<ICardProps> = ({
   const isStaff = useSelector((state: RootState) => state.user.isStaff);
 
   const handleSubmit = async () => {
-    const ToSend = { dishCompositionID: id.toString(), dishCompositionRequest: request }
-    await dispatch(submitDishCompositionRequest(ToSend))
+    await dispatch(completeDishCompositionRequest(id.toString()))
   }
 
   const handleReject = async () => {
-
+    await dispatch(rejectDishCompositionRequest(id.toString()))
   }
 
     return (

@@ -20,9 +20,22 @@ export const DishCompositionListPage: FC = () => {
   const [endDate, setEndDate] = useState<string>("");
 
   // Первый запрос без фильтров
-  useEffect(() => {
-    dispatch(getDishCompositionList(undefined));
-  }, [dispatch]);
+useEffect(() => {
+  const filters = {
+    status: statusFilter || undefined,
+    startDate: startDate || undefined,
+    endDate: endDate || undefined,
+  };
+
+  dispatch(getDishCompositionList(filters));
+
+  const intervalId = setInterval(() => {
+    dispatch(getDishCompositionList(filters));
+  }, 2000);
+
+  return () => clearInterval(intervalId);
+}, [dispatch, statusFilter, startDate, endDate]);
+  
 
   const handleApplyFilters = () => {
     dispatch(
@@ -115,7 +128,7 @@ export const DishCompositionListPage: FC = () => {
             creation_datetime={item.creation_datetime}
             formation_datetime={item.formation_datetime}
             completion_datetime={item.completion_datetime}
-            nutrients_count={0}
+            nutrients_count={item.calculated_nutrients_count}
             client={item.client}
             manager={item.manager}
             request={item}
