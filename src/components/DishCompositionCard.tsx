@@ -4,15 +4,18 @@ import { Button, Card, CardText, Col, Row, Stack } from "react-bootstrap";
 import defaultimage from "../assets/DefaultImage.png";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store/store";
-import { deleteDishCompositionNutrient, setDishCompositionNutrients } from "../slices/dishCompositionSlice";
+import { deleteDishCompositionNutrient, setDishCompositionNutrients, submitDishCompositionRequest } from "../slices/dishCompositionSlice";
 
 interface ICardProps {
   id?: number | undefined;
-  status: string | undefined;
+  status: "FO" | "CO" | "RE";
   creation_datetime?: string;
   formation_datetime?: string | null;
   completion_datetime?: string | null;
   nutrients_count: number;
+  client: string;
+  manager?: string;
+  request: any;
 }
 
 const formatDateTimeRu = (value?: string | null) => {
@@ -43,22 +46,56 @@ const formatDateTimeRu = (value?: string | null) => {
 
 
 export const DishCompositionCard: FC<ICardProps> = ({
-    id,
+    id=0,
     status,
     creation_datetime,
     formation_datetime,
     completion_datetime,
     nutrients_count=0,
+    client,
+    manager,
+    request,
 }) => {
+  const status_dict = {"FO": "Сформирована", "RE": "Отклонена", "CO": "Завершена"}
+  
+  const dispatch = useDispatch<AppDispatch>();
+  const isStaff = useSelector((state: RootState) => state.user.isStaff);
+
+  const handleSubmit = async () => {
+    const ToSend = { dishCompositionID: id.toString(), dishCompositionRequest: request }
+    await dispatch(submitDishCompositionRequest(ToSend))
+  }
+
+  const handleReject = async () => {
+
+  }
+
     return (
-    <Card className="dish-composition-card p-3">
+    <Card className="dish-composition-card p-3 mb-3">
         <Card.Body className="py-0">
-            <div className="">{id}</div>
-            <div className="">{status}</div>
-            <div>{formatDateTimeRu(creation_datetime)}</div>
-            <div>{formatDateTimeRu(formation_datetime)}</div>
-            <div>{formatDateTimeRu(completion_datetime)}</div>
-            <div className="">{nutrients_count}</div>
+          <Row>
+            <Col>
+              <Card.Title className="me-2">Заявка номер {id}</Card.Title>
+              <div className="mx-auto" />
+              <div>Дата создания: {formatDateTimeRu(creation_datetime)}</div>
+              <div>Дата формирования: {formatDateTimeRu(formation_datetime)}</div>
+              <div>Дата завершения: {formatDateTimeRu(completion_datetime)}</div>
+              <div className="">Рассчитано нутриентов: {nutrients_count}</div>
+              <div className="">Клиент: {client}</div>
+              <div className="">Нутрициолог: {manager}</div>
+            </Col>
+            <Col className="d-flex justify-content-end">
+              <Stack className="align-items-end" direction="vertical">
+                <div className="mx-2 mb-2">{status_dict[status]}</div>
+                {(isStaff && status=="FO") && (
+                  <>
+                    <Button className="btn-complete mb-2" onClick={handleSubmit}>Завершить</Button>
+                    <Button className="btn-reject" onClick={handleReject}>Отклонить</Button>
+                  </>
+                )}
+              </Stack>
+            </Col>
+          </Row>
         </Card.Body>
     </Card>
   );

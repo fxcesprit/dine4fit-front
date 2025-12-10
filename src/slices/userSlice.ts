@@ -5,6 +5,7 @@ interface UserState {
   id?: number;
   email: string;
   isAuthenticated: boolean;
+  isStaff?: boolean;
   error?: string | null; 
 }
 
@@ -12,6 +13,7 @@ const initialState: UserState = {
   id: -1,
   email: '',
   isAuthenticated: false,
+  isStaff: false,
   error: null,
 };
 
@@ -79,6 +81,8 @@ const userSlice = createSlice({
         state.id = action.payload.id;
         state.email = email;
         state.isAuthenticated = true;
+        state.isStaff = action.payload.is_staff || action.payload.is_superuser;
+        console.log(state.isStaff)
         state.error = null;
       })
       .addCase(loginUserAsync.rejected, (state, action) => {
@@ -89,6 +93,7 @@ const userSlice = createSlice({
       .addCase(logoutUserAsync.fulfilled, (state) => {
         state.email = '';
         state.isAuthenticated = false;
+        state.isStaff = false;
         state.error = null;
       })
       .addCase(logoutUserAsync.rejected, (state, action) => {

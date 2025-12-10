@@ -1,0 +1,13 @@
+.dish-composition-card {
+    width: 100%;
+}
+
+.btn-complete{
+    width: 8rem;
+}
+
+.btn-reject {
+    width: 8rem;
+    background-color: coral !important;
+    border: none !important;
+}
