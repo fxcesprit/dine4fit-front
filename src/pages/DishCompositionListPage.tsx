@@ -13,29 +13,33 @@ export const DishCompositionListPage: FC = () => {
     (state: RootState) => state.dishCompositionList.dishCompoisitionList
   );
 
+  const isStaff = useSelector(
+    (state: RootState) => state.user.isStaff
+  );
+
   // Локальные фильтры
   type tstatus = "FO" | "CO" | "RE" | "";
   const [statusFilter, setStatusFilter] = useState<tstatus>("");
   const [startDate, setStartDate] = useState<string>("");
   const [endDate, setEndDate] = useState<string>("");
+  const [clientFilter, setClientFilter] = useState<string>("");
 
-  // Первый запрос без фильтров
-useEffect(() => {
-  const filters = {
-    status: statusFilter || undefined,
-    startDate: startDate || undefined,
-    endDate: endDate || undefined,
-  };
+  // Short polling + фильтры, которые уходят на бэкенд
+  useEffect(() => {
+    const filters = {
+      status: statusFilter || undefined,
+      startDate: startDate || undefined,
+      endDate: endDate || undefined,
+    };
 
-  dispatch(getDishCompositionList(filters));
-
-  const intervalId = setInterval(() => {
     dispatch(getDishCompositionList(filters));
-  }, 2000);
 
-  return () => clearInterval(intervalId);
-}, [dispatch, statusFilter, startDate, endDate]);
-  
+    const intervalId = setInterval(() => {
+      dispatch(getDishCompositionList(filters));
+    }, 2000);
+
+    return () => clearInterval(intervalId);
+  }, [dispatch, statusFilter, startDate, endDate]);
 
   const handleApplyFilters = () => {
     dispatch(
@@ -51,8 +55,27 @@ useEffect(() => {
     setStatusFilter("");
     setStartDate("");
     setEndDate("");
+    setClientFilter("");
     dispatch(getDishCompositionList(undefined));
   };
+
+  // Фильтрация по создателю заявки только на фронте и только для модераторов
+  const filteredDishCompositionList = dishCompositionList.filter((item) => {
+    if (!isStaff) {
+      // Обычным пользователям показываем всё, что пришло с бэка
+      return true;
+    }
+
+    if (!clientFilter.trim()) {
+      // Если фильтр по клиенту пустой — тоже показываем всё
+      return true;
+    }
+
+    const client = (item.client || "").toLowerCase();
+    const search = clientFilter.trim().toLowerCase();
+
+    return client.includes(search);
+  });
 
   return (
     <>
@@ -80,7 +103,7 @@ useEffect(() => {
               </Form.Group>
             </Col>
 
-            <Col xs={4}>
+            <Col xs={3}>
               <Form.Group controlId="startDate">
                 <Form.Label>Дата формирования с</Form.Label>
                 <Form.Control
@@ -91,7 +114,7 @@ useEffect(() => {
               </Form.Group>
             </Col>
 
-            <Col xs={5}>
+            <Col xs={3}>
               <Form.Group controlId="endDate">
                 <Form.Label>Дата формирования по</Form.Label>
                 <Form.Control
@@ -101,12 +124,26 @@ useEffect(() => {
                 />
               </Form.Group>
             </Col>
-        </Row>
-        <Row className="mt-3">
 
+            {isStaff && (
+              <Col xs={3}>
+                <Form.Group controlId="clientFilter">
+                  <Form.Label>Создатель заявки</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="email клиента"
+                    value={clientFilter}
+                    onChange={(e) => setClientFilter(e.target.value)}
+                  />
+                </Form.Group>
+              </Col>
+            )}
+          </Row>
+
+          <Row className="mt-3">
             <Col
               xs={12}
-              md={2}
+              md={3}
               className="d-flex align-items-end justify-content-start gap-2"
             >
               <Button variant="primary" onClick={handleApplyFilters}>
@@ -120,7 +157,7 @@ useEffect(() => {
         </Form>
 
         {/* Список заявок */}
-        {dishCompositionList.map((item) => (
+        {filteredDishCompositionList.map((item) => (
           <DishCompositionCard
             key={item.id}
             id={item.id}
