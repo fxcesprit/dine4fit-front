@@ -1,4 +1,5 @@
-# dine4fit-front
+# Фронтенд приложение
+
 Бэкенд: https://github.com/fxcesprit/django_dine4fit
 
 Асинхронный сервис: https://github.com/fxcesprit/Async-service
