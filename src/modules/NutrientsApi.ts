@@ -1,5 +1,15 @@
 import { NUTRIENTS_MOCK } from "./mock";
 
+const API_BASE = import.meta.env.VITE_API_BASE;
+
+const apiFetch = (path: string, init: RequestInit = {}) => {
+  return fetch(`${API_BASE}${path}`, {
+    ...init,
+    credentials: "include",
+  });
+};
+
+
 export interface Nutrients {
   id: number;
   name: string;
@@ -23,81 +33,24 @@ export interface DishCompositionBtn {
 }
 
 export const getNutrientsByName = async (name = ""): Promise<Nutrients[]> => {
-  return fetch(`/api/v1/nutrients?search_text=${name}`)
-  .then(
-    (response) => {
-      console.log('Получили данные', response);
-      return response.json();
-    }
-  )
-  .catch(
-    () => {
-      console.log('Ошибка получения данных', NUTRIENTS_MOCK);
-      return NUTRIENTS_MOCK.filter((nutrient: Nutrients) => nutrient.name.toLowerCase().includes(name));
-    }
-  )
+  return apiFetch(`/nutrients?nutrient_search_text=${encodeURIComponent(name)}`)
+    .then(r => r.json())
+    .catch(() => NUTRIENTS_MOCK.filter(n => n.name.toLowerCase().includes(name)));
 };
 
-// export function getNutrientsByName() {
-//   const dispatch = useDispatch();
-//   const name = useNutrientsFilterName();
-
-//   async function fetchNutrients() {
-//     const response = await fetch(`/api/v1/nutrients?search_text=${name}`)
-//     .then(
-//       (response) => {
-//         console.log('Получили данные', response);
-//         return response.json();
-//       }
-//     )
-//     .catch(
-//       () => {
-//         console.log('Ошибка получения данных', NUTRIENTS_MOCK);
-//         return NUTRIENTS_MOCK;
-//       }
-//     )
-//     dispatch(setNutrientsAction(response)) 
-//   }
-
-//   useEffect(() => {
-//     fetchNutrients()
-//   }, [])
-// }
-
-export const getNutrientById = async (
-  id: number | string
-): Promise<Nutrients> => {
-  return fetch(`/api/v1/nutrients/${id}`).then(
-    (response) => {
-        console.log('Получили данные', response);
-        return response.json()
-      }
-  )
-  .catch(
-    () => {
-      console.log('Ошибка получения данных');
-      const num_id = Number(id)
-      return num_id >= 0 && num_id <= 2 ? NUTRIENTS_MOCK[Number(id) - 1] : undefined;
-    }
-  )
+export const getNutrientById = async (id: number | string): Promise<Nutrients> => {
+  return apiFetch(`/nutrients/${id}`)
+    .then(r => r.json())
+    .catch(() => {
+      const numId = Number(id);
+      return numId >= 1 && numId <= 2 ? NUTRIENTS_MOCK[numId - 1] : undefined as any;
+    });
 };
 
-export const getDishCompositionBtn = async () : Promise<DishCompositionBtn> => {
-  return fetch(`/api/v1/dish_compositions/draft`).then(
-    (response) => {
-        console.log('Получили данные', response);
-        return response.json()
-      }
-  )
-  .catch(
-    () => {
-      console.log('Ошибка получения данных');
-      return {
-        dish_composition_draft: {
-          id: -1,
-          nutrient_types_amount: 0
-          }
-      };
-    }
-  ) 
-}
+export const getDishCompositionBtn = async (): Promise<DishCompositionBtn> => {
+  return apiFetch(`/dish_compositions/draft`)
+    .then(r => r.json())
+    .catch(() => ({
+      dish_composition_draft: { id: -1, nutrient_types_amount: 0 }
+    }));
+};
